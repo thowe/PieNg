@@ -152,8 +152,8 @@ sub add :Local :Args(1) {
     else { # We need to display a form.
 
         if( $id ne 'root' ) {
-            $c->stash->{'fstop'} = $params->{'fsfirst'};
-            $c->stash->{'fsbottom'} = $params->{'fslast'};
+            $c->stash->{'fsfirst'} = $params->{'fsfirst'};
+            $c->stash->{'fslast'} = $params->{'fslast'};
             my $freespace = PieDB::FreeSpace->new(
                               NetAddr::IP::Lite->new($params->{'fsfirst'}),
                               NetAddr::IP::Lite->new($params->{'fslast'}),
