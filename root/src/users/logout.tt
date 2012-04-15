@@ -1,0 +1,3 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>You are logged out.</h3>
+[% END -%]

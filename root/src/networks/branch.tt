@@ -1,0 +1,20 @@
+[% WRAPPER site/wide_wrapper -%]
+<h3>Branch of [% network.address_range %]</h3>
+[% VIEW nested_branch -%]
+[% BLOCK list -%]
+<ul>
+[% FOREACH i IN item -%]
+[% IF i.address_range -%]
+  <li><strong>[% i.address_range %]</strong> :: [% i.description %]</li>
+[% ELSE -%]
+  <li>free space<br />[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
+[% END -%]
+[% IF i.children -%]
+[% view.print(i.children.list) -%]
+[% END -%]
+[% END -%]
+</ul>
+[% END -%]
+[% END -%]
+[% nested_branch.print(branch) -%]
+[% END -%]

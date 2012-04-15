@@ -1,0 +1,22 @@
+[% WRAPPER site/default_wrapper -%]
+[%- IF ! c.user_exists -%]
+<form action="[% c.uri_for('/users/login') %]"
+  method="post" accept-charset="utf-8">
+  <p>
+  <label for="username">Username</label>
+  <input type="text" name="username" value="" id="username">
+  <br><br>
+  <label for="password">Password</label>
+  <input type="password" name="password" value="" id="password">
+  </p>
+  <p>
+[%- IF requested %]
+  <input type="hidden" name="requested" value="[% requested %]">
+[% END -%]
+  <input type="submit" value="Login &rarr;">
+  </p>
+</form>
+[%- ELSE -%]
+<p>You are already logged in.</p>
+[%- END -%]
+[% END -%]

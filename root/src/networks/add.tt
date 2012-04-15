@@ -1,0 +1,48 @@
+[% WRAPPER site/default_wrapper -%]
+<form action="[% c.uri_for(c.controller('Networks').action_for('add'), parent_id ) %]"
+      method="post">
+<table class="user">
+<tr><td colspan="2">
+[%- IF parent_id == 'root' -%]
+Creating a new root network
+[%- ELSE -%]
+Creating a child of [% parent_network.address_range %]
+[%- END %]</td></tr>
+<tr>
+<td><label for="address_range">Network:</label></td>
+<td><input type="text" id="address_range" name="address_range"></td>
+</tr>
+<tr>
+<td><label for="description">Description:</label></td>
+<td><input type="text" id="description" name="description"></td>
+</tr>
+<tr>
+<td><label for="valid_masks">Valid Subnet Masks:</label></td>
+<td><input type="text" id="valid_masks" name="valid_masks"></td>
+</tr>
+<tr>
+<td><label for="owner">Owner:</label></td>
+<td><input type="text" id="owner" name="owner"></td>
+</tr>
+<tr>
+<td><label for="account">Account:</label></td>
+<td><input type="text" id="account" name="account"></td>
+</tr>
+<tr>
+<td><label for="service">Service ID:</label></td>
+<td><input type="text" id="service" name="service"></td>
+</tr>
+<tr>
+<td>Will this range be subdivided?</td>
+<td><label for="subdivide_t">yes
+</label><input type="radio" name="subdivide" id="subdivide_t" value="true" checked>
+<label for="subdivide_f">no
+</label><input type="radio" name="subdivide" id="subdivide_f" value="false"></td>
+<tr>
+<td colspan="2" class="buttons">
+<input type="submit" id="createbutton" name="createbutton" value="Create">
+</td>
+</tr>
+</table>
+</form>
+[% END -%]

@@ -1,0 +1,21 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>Users List</h3>
+<table class="userlist">
+<tr><th>Username</th><th>Email Address</th>
+<th>Status</th><th>Role</th><th>edit</th><th>delete</th>
+</tr>
+[%- FOREACH user IN users -%]
+<tr>
+<td>[% user.username %]</td><td>[% user.email %]</td>
+<td>[% status_info.${user.status} %]</td>
+<td>[% FOREACH role IN user.roles %]
+[% role.name %]
+[% END %]</td>
+<td><a href="[% c.uri_for( c.controller('Users').action_for('edit'),
+                           (user.id) ) %]">edit</a></td>
+<td><a href="[% c.uri_for( c.controller('Users').action_for('delete'),
+                           (user.id) ) %]">delete</a></td>
+</tr>
+[% END -%]
+</table>
+[% END -%]

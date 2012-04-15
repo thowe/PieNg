@@ -1,0 +1,77 @@
+[% WRAPPER site/default_wrapper -%]
+<form action="[% c.uri_for(c.controller('Users').action_for('edit'),
+                 (edituser.id)) %]" method="post">
+<table class="user">
+<tr>
+<td>Username:</td>
+<td>[% edituser.username %]<input type="hidden"
+id="username" name="username" value="[% edituser.username %]"></td>
+</tr>
+<tr>
+<td><label for="email">Email</label>:</td>
+<td><input type="text" id="email" name="email"
+           value="[% edituser.email %]"></td>
+</tr>
+<tr>
+<td><label for="password1">Password</label>:</td>
+<td><input type="password" id="password1" name="password1"
+           value="[% edituser.password %]"></td>
+</tr>
+<tr>
+<td><label for="password2">Password again</label>:</td>
+<td><input type="password" id="password2" name="password2"
+           value="[% edituser.password %]"></td>
+</tr>
+<tr class="offcolor">
+<td>Status:</td>
+<td>
+<input type="radio" id="renabled" name="status"
+       value="1"
+       [%- IF edituser.status == 1 -%]
+ checked="checked"
+       [%- END -%]>
+<label for="renabled">enabled</label><br>
+<input type="radio" id="rdisabled" name="status"
+       value="2"
+       [%- IF edituser.status == 2 -%]
+ checked="checked"
+       [%- END -%]>
+<label for="rdisabled">disabled</label><br>
+</td>
+</tr>
+<tr>
+<td>Role:</td>
+<td>
+<input type="radio" id="radioadministrator" name="role"
+       value="administrator"
+       [%- IF edituser.has_role_name('administrator') -%]
+ checked="checked"
+       [%- END -%]>
+<label for="radioadministrator">administrator</label><br>
+<input type="radio" id="radiocreator" name="role"
+       value="creator"
+       [%- IF edituser.has_role_name('creator') -%]
+ checked="checked"
+       [%- END -%]>
+<label for="radiocreator">creator</label><br>
+<input type="radio" id="radioeditor" name="role"
+       value="editor"
+       [%- IF edituser.has_role_name('editor') -%]
+ checked="checked"
+       [%- END -%]>
+<label for="radioeditor">editor</label><br>
+<input type="radio" id="radioreader" name="role"
+       value="reader"
+       [%- IF edituser.has_role_name('reader') -%]
+ checked="checked"
+       [%- END -%]>
+<label for="radioreader">reader</label>
+</tr>
+<tr>
+<td colspan="2" class="buttons">
+<input type="submit" id="updatebutton" name="updatebutton" value="Update">
+</td>
+</tr>
+</table>
+</form>
+[% END -%]

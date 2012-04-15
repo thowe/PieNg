@@ -1,0 +1,20 @@
+<div id="navigation">
+<div class="menu">
+<ul>
+<li><a href="[% c.uri_for(c.controller('Users').action_for('list')) %]"
+     >Users</a></li>
+<li><a href="[% c.uri_for(c.controller('Users').action_for('add')) %]"
+     >Add a user</a></li>
+<li><a href="[% c.uri_for(c.controller('Users').action_for('logout')) %]"
+     >Logout</a></li>
+</ul>
+</div>
+<div class="menu">
+<ul>
+<li><a href="[% c.uri_for(c.controller('Networks').action_for('roots')) %]"
+     >Networks</a></li>
+<li><a href="[% c.uri_for(c.controller('Networks').action_for('add'), ('root')) %]"
+     >Add a root network</a></li>
+</ul>
+</div>
+</div>

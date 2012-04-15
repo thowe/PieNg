@@ -1,0 +1,9 @@
+[% INCLUDE site/default_top %]
+[% INCLUDE site/default_navigation %]
+<div id="content-wide">
+[% IF message -%]
+<div class="message">[% message %]</div>
+[%- END %]
+[% content %]
+</div>
+[% INCLUDE site/default_bottom %]

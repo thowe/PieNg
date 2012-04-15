@@ -1,0 +1,44 @@
+[% WRAPPER site/default_wrapper -%]
+<form action="[% c.uri_for(c.controller('Users').action_for('add')) %]"
+      method="post">
+<table class="user">
+<tr>
+<td><label for="username">Username</label>:</td>
+<td><input type="text" id="username" name="username"></td>
+</tr>
+<tr>
+<td><label for="email">Email</label>:</td>
+<td><input type="text" id="email" name="email"></td>
+</tr>
+<tr>
+<td><label for="password1">Password</label>:</td>
+<td><input type="password" id="password1" name="password1"></td>
+</tr>
+<tr>
+<td><label for="password2">Password again</label>:</td>
+<td><input type="password" id="password2" name="password2"></td>
+</tr>
+<tr>
+<td>Role:</td>
+<td>
+<input type="radio" id="radioadministrator" name="role"
+       value="administrator">
+<label for="radioadministrator">administrator</label><br>
+<input type="radio" id="radiocreator" name="role"
+       value="creator">
+<label for="radiocreator">creator</label><br>
+<input type="radio" id="radioeditor" name="role"
+       value="editor">
+<label for="radioeditor">editor</label><br>
+<input type="radio" id="radioreader" name="role"
+       value="reader" checked="checked">
+<label for="radioreader">reader</label>
+</tr>
+<tr>
+<td colspan="2" class="buttons">
+<input type="submit" id="createbutton" name="createbutton" value="Create">
+</td>
+</tr>
+</table>
+</form>
+[% END -%]

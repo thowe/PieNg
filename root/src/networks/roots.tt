@@ -1,0 +1,20 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>Network Roots</h3>
+<table class="userlist">
+<tr><th>Network</th><th>Comment</th></tr>
+[%- IF roots.count %]
+[%- WHILE (root = roots.next) %]
+<tr>
+<td>[% root.address_range %]</td><td>[% root.description %]</td>
+<td><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
+                           (root.id) ) %]">branch</a></td>
+</tr>
+[% END -%]
+[% ELSE -%]
+<tr>
+<td colspan="3">There aren't any networks!</td>
+</tr>
+[% END -%]
+</table>
+</form>
+[% END -%]
