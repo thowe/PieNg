@@ -1,5 +1,16 @@
-PieNG is an IP Address Manager (IPAM) designed with an ISP setting in mind.
+PieNg is Copyright (C) 2012, Tim Howe.
 
+PieNg is an IP Address Manager (IPAM) designed with an ISP setting in mind.
 This is currently alpha code not meant to be used in production yet.
-
 I am currently working toward basic feature-completeness.
+
+
+LICENSE INFORMATION
+
+This program is distributed in the hope that it will be useful, but it is
+provided "as is" and without any express or implied warranties. For details,
+see the full text of the license in the file LICENSE.
+
+This code is free software; you can redistribute it and/or modify it under
+the terms of the Artistic License 2.0. For details, see the full text of the
+license in the file LICENSE.
