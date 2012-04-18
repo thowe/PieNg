@@ -155,9 +155,9 @@ sub add :Local :Args(1) {
             $c->stash->{'fsfirst'} = $params->{'fsfirst'};
             $c->stash->{'fslast'} = $params->{'fslast'};
             my $freespace = PieDB::FreeSpace->new(
-                              NetAddr::IP::Lite->new($params->{'fsfirst'}),
-                              NetAddr::IP::Lite->new($params->{'fslast'}),
-                              $parent->net_addr_ip );
+                              { first_ip => NetAddr::IP::Lite->new($params->{'fsfirst'}),
+                                last_ip => NetAddr::IP::Lite->new($params->{'fslast'}),
+                                subnet => $parent->net_addr_ip } );
 
             $c->stash->{'fillnets'} = $freespace->fillnets(
                                         $params->{'rmask'},
