@@ -1,3 +1,5 @@
+# Copyright (c) 2012 by Tim Howe.
+
 package PieDB::FreeSpace;
 
 =head1 PieDB::FreeSpace
@@ -134,3 +136,19 @@ sub next_subnet {
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+=head1 AUTHOR
+
+Tim Howe <timh@dirtymonday.net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Tim Howe.
+
+This program is distributed in the hope that it will be useful, but it is
+provided "as is" and without any express or implied warranties. For details,
+see the full text of the license in the file LICENSE.
+
+This code is free software; you can redistribute it and/or modify it under
+the terms of the Artistic License 2.0. For details, see the full text of the
+license in the file LICENSE.
