@@ -208,7 +208,9 @@ sub branch_with_space {
                                          $self->net_addr_ip->addr),
                           last_ip => NetAddr::IP::Lite->new(
                                          $self->net_addr_ip->broadcast->addr),
-                          subnet => $self->net_addr_ip );
+                          subnet => $self->net_addr_ip,
+                          pieng_network_id => $self->id,
+                          valid_masks => $self->valid_masks );
         return \@branch; # Why go on?
     }
 
@@ -219,7 +221,9 @@ sub branch_with_space {
                           first_ip => NetAddr::IP::Lite->new(
                                           $self->net_addr_ip->addr),
                           last_ip => $children[0]->preceding_addr,
-                          subnet => $self->net_addr_ip );
+                          subnet => $self->net_addr_ip,
+                          pieng_network_id => $self->id,
+                          valid_masks => $self->valid_masks );
     }
 
     my $prev_child;
@@ -232,7 +236,9 @@ sub branch_with_space {
             push @branch, PieDB::FreeSpace->new(
                 first_ip => $prev_child->following_addr,
                 last_ip => $child->preceding_addr,
-                subnet => $self->net_addr_ip );
+                subnet => $self->net_addr_ip,
+                pieng_network_id => $self->id,
+                valid_masks => $self->valid_masks );
                                           
         }
 
@@ -254,7 +260,9 @@ sub branch_with_space {
                  first_ip => $prev_child->following_addr,
                  last_ip => NetAddr::IP::Lite->new(
                                 $self->net_addr_ip->broadcast->addr),
-                 subnet => $self->net_addr_ip );
+                 subnet => $self->net_addr_ip,
+                 pieng_network_id => $self->id,
+                 valid_masks => $self->valid_masks );
     }
 
     return \@branch;

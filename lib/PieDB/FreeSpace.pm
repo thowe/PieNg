@@ -47,6 +47,16 @@ has 'subnet' => (
         isa => 'NetAddr::IP::Lite',
         required => 1 );
 
+has 'pieng_network_id' => (
+        is => 'ro',
+        isa => 'Int',
+        required => 0 );
+
+has 'valid_masks' => (
+        is => 'ro',
+        isa => 'ArrayRef[Int]',
+        required => 0 );
+
 sub BUILD {
     my $self = shift;
 

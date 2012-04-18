@@ -7,7 +7,13 @@
 [% IF i.address_range -%]
   <li><strong>[% i.address_range %]</strong> :: [% i.description %]</li>
 [% ELSE -%]
-  <li>free space<br />[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
+  <li>free space - insert network
+    [%- FOREACH mask IN i.valid_masks %]
+    <a href="[% c.uri_for( c.controller('Networks').action_for('add'), i.pieng_network_id,
+                       { fsfirst => i.first_ip_compact,
+                         fslast => i.last_ip_compact,
+                         rmask => mask } ) %]">/[% mask %]</a>
+    [%- END %]<br />[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
 [% END -%]
 [% IF i.children -%]
 [% view.print(i.children.list) -%]
