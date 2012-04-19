@@ -102,8 +102,10 @@ sub fillnets {
     $dip = $self->next_subnet($dip);
 
     for (1..$limit) {
-        if(NetAddr::IP::Lite->new($dip->addr) >= $self->first_ip &&
-                         $dip->broadcast <= $self->last_ip) {
+        if( defined $dip and
+            NetAddr::IP::Lite->new($dip->addr) >= $self->first_ip and
+            $dip->broadcast <= $self->last_ip ) {
+
             push(@nets, $dip);
             $dip = $self->next_subnet($dip);
         }
@@ -140,8 +142,18 @@ sub next_subnet {
     my $scratch = NetAddr::IP::Lite->new(
                       $cur_subnet->broadcast->addr . '/' .
                       $self->subnet->mask) + 1;
-    return NetAddr::IP::Lite->new($scratch->addr . '/' .
-                            $cur_subnet->mask);
+
+    # Check that the next subnet is actually further up
+    # because NetAddr::IP will loop around
+    if( NetAddr::IP::Lite->new($scratch->addr) >
+        NetAddr::IP::Lite->new($cur_subnet) ) {
+
+        return NetAddr::IP::Lite->new($scratch->addr . '/' .
+                                $cur_subnet->mask);
+    }
+    else {
+        return undef;
+    }
 }
 
 no Moose;
