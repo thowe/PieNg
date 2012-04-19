@@ -81,7 +81,14 @@ sub add :Local :Args(1) {
         @masks = sort {$a <=> $b} @masks;
 
         # Is the network a valid network?  (meaning Net::Addr::IP thinks so)
-        my $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
+        my $netaddrip;
+        if($params->{'selected_address_range'} eq 'manual_input') {
+            $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
+        }
+        else {
+            $netaddrip = NetAddr::IP::Lite->new(
+                             $params->{'selected_address_range'});
+        }
         if(!defined $netaddrip) {
             $c->stash->{'message'} = $params->{'address_range'} .
                                      " is not a valid network.";

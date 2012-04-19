@@ -10,7 +10,16 @@ Creating a child of [% parent_network.address_range %]
 [%- END %]</td></tr>
 <tr>
 <td><label for="address_range">Network:</label></td>
-<td><input type="text" id="address_range" name="address_range"></td>
+<td>
+[%- IF fillnets -%]
+<select name="selected_address_range" id="select_address_range">
+<option selected value="manual_input">entered below</option>
+[% FOREACH fillnet IN fillnets -%]
+<option value="[% fillnet.cidr %]">[% fillnet.cidr %]</option>
+[% END -%]
+</select>
+[% END -%]
+<br><input type="text" id="input_address_range" name="address_range"></td>
 </tr>
 <tr>
 <td><label for="description">Description:</label></td>
