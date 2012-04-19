@@ -268,6 +268,25 @@ sub branch_with_space {
     return \@branch;
 }
 
+=head2 cidr_compact
+
+Always return a sensible cidr notation string.  For IPv4 this is the same
+as NetAddr::IP cidr method.  For IPv6 it is the same as short with a mask
+in slash notation.
+
+=cut
+
+sub cidr_compact {
+    my ($self) = @_;
+
+    if( $self->net_addr_ip->version == 4) {
+        return $self->net_addr_ip->cidr;
+    }
+    else {
+        return $self->net_addr_ip->short . '/' . $self->net_addr_ip->masklen;
+    }
+}
+
 =head2 following_addr
 
 Net::Addr::IP of the single IP address following this network.
