@@ -82,7 +82,8 @@ sub add :Local :Args(1) {
 
         # Is the network a valid network?  (meaning Net::Addr::IP thinks so)
         my $netaddrip;
-        if($params->{'selected_address_range'} eq 'manual_input') {
+        if($params->{'selected_address_range'} eq 'manual_input' and
+           $params->{'address_range'}) {
             $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
         }
         else {
