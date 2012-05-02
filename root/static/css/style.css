@@ -67,3 +67,37 @@ table.userlist th {
 table.userlist td {
  padding: 4px;
 }
+
+div.address_range {
+ border: 1px solid black;
+ display: inline-block;
+ min-width: 300px;
+ padding: 0px;
+ margin-bottom: 2px;
+ margin-right: auto;
+ vertical-align: top;
+}
+
+div.subdivide {
+ background-color: #eceac6;
+}
+
+div.nosubdivide {
+ background-color: #dcdcf6;
+}
+
+div.address_range h3, p {
+ margin: 1px;
+}
+
+span.network_info {
+ margin-right: 8px;
+}
+
+span.owner {
+ font-weight: bold;
+}
+
+span.description {
+ text-decoration: underline;
+}

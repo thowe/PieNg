@@ -7,6 +7,21 @@
 <link rel="stylesheet"
       href="/static/css/style.css" type="text/css" media="screen"
       charset="us-ascii">
+<script type="text/javascript" src="/static/jq/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+function range_input_status() {
+  if ($('#select_address_range').val() == 'manual_input') {
+    $('#input_address_range').attr( 'disabled', false );
+  }
+  else {
+    $('#input_address_range').attr( 'disabled', 'disabled' );
+  }
+}
+
+$(function(){
+  $('#select_address_range').change(range_input_status);
+});
+</script>
 </head>
 <body>
 <div id="header">

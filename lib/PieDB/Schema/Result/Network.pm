@@ -174,6 +174,8 @@ sub branch {
                          subdivide     => $child->subdivide,
                          valid_masks   => $child->valid_masks,
                          owner         => $child->owner,
+                         account       => $child->account,
+                         service       => $child->service,
                          children      => branch($child) });
     }
 
@@ -247,6 +249,8 @@ sub branch_with_space {
                          subdivide     => $child->subdivide,
                          valid_masks   => $child->valid_masks,
                          owner         => $child->owner,
+                         account       => $child->account,
+                         service       => $child->service,
                          children      => branch_with_space($child) });
 
         $prev_child = $child;

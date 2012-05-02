@@ -1,11 +1,16 @@
 [% WRAPPER site/wide_wrapper -%]
-<h3>Branch of [% network.address_range %]</h3>
+<h1>Branch of [% network.address_range %]</h1>
 [% VIEW nested_branch -%]
 [% BLOCK list -%]
 <ul>
 [% FOREACH i IN item -%]
 [% IF i.address_range -%]
-  <li><strong>[% i.address_range %]</strong> :: [% i.description %]</li>
+  <li><div class="address_range [% IF i.subdivide %]subdivide[% ELSE %]nosubdivide[% END %]"><h3>[% i.address_range %]</h3>
+    <p class="range_description">
+    <span class="network_info owner">[% IF i.owner %][% i.owner %][% ELSE %]no owner entered[% END %]</span>
+    <span class="network_info description">[% IF i.description %][% i.description %][% ELSE %][% END %]</span>
+    <span class="network_info account">[% IF i.account %]account: [% i.account %][% ELSE %][% END %]</span>
+    <span class="network_info service">[% IF i.service %]service: [% i.service %][% ELSE %][% END %]</span></div></li>
 [% ELSE -%]
   <li>free space - insert network
     [%- FOREACH mask IN i.valid_masks %]

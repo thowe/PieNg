@@ -26,10 +26,6 @@ Creating a child of [% parent_network.address_range %]
 <td><input type="text" id="description" name="description"></td>
 </tr>
 <tr>
-<td><label for="valid_masks">Valid Subnet Masks:</label></td>
-<td><input type="text" id="valid_masks" name="valid_masks"></td>
-</tr>
-<tr>
 <td><label for="owner">Owner:</label></td>
 <td><input type="text" id="owner" name="owner"></td>
 </tr>
@@ -44,9 +40,14 @@ Creating a child of [% parent_network.address_range %]
 <tr>
 <td>Will this range be subdivided?</td>
 <td><label for="subdivide_t">yes
-</label><input type="radio" name="subdivide" id="subdivide_t" value="true" checked>
+</label><input type="radio" name="subdivide" id="subdivide_t" value="true">
 <label for="subdivide_f">no
-</label><input type="radio" name="subdivide" id="subdivide_f" value="false"></td>
+</label><input type="radio" name="subdivide" id="subdivide_f" value="false" checked></td>
+</tr>
+<tr>
+<td><label for="valid_masks">Valid Subnet Masks:</label></td>
+<td><input type="text" id="valid_masks" name="valid_masks" disabled></td>
+</tr>
 <tr>
 <td colspan="2" class="buttons">
 <input type="submit" id="createbutton" name="createbutton" value="Create">
