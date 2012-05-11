@@ -169,7 +169,8 @@ sub branch {
     @children = $self->networks( undef, { order_by => 'address_range' } )->all;
 
     foreach my $child (@children) {
-        push @branch, ({ description   => $child->description,
+        push @branch, ({ id            => $child->id,
+                         description   => $child->description,
                          address_range => $child->address_range,
                          subdivide     => $child->subdivide,
                          valid_masks   => $child->valid_masks,
@@ -244,7 +245,8 @@ sub branch_with_space {
                                           
         }
 
-        push @branch, ({ description   => $child->description,
+        push @branch, ({ id            => $child->id,
+                         description   => $child->description,
                          address_range => $child->address_range,
                          subdivide     => $child->subdivide,
                          valid_masks   => $child->valid_masks,
@@ -458,5 +460,23 @@ sub smallest_container {
 
     return $container;
 }
+
+=head1 AUTHOR
+
+Tim Howe <timh@dirtymonday.net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Tim Howe.
+
+This program is distributed in the hope that it will be useful, but it is
+provided "as is" and without any express or implied warranties. For details,
+see the full text of the license in the file LICENSE.
+
+This code is free software; you can redistribute it and/or modify it under
+the terms of the Artistic License 2.0. For details, see the full text of the
+license in the file LICENSE.
+
+=cut
 
 1;
