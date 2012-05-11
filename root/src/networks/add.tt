@@ -1,8 +1,15 @@
 [% WRAPPER site/default_wrapper -%]
 <form action="[% c.uri_for(c.controller('Networks').action_for('add'), parent_id ) %]"
       method="post">
+<div class="form_table">
+[% IF fsfirst %]<input type="hidden" name="fsfirst" id="fsfirst"
+       value="[% fsfirst %]">[% END %]
+[% IF fslast %]<input type="hidden" name="fslast" id="fslast"
+       value="[% fslast %]">[% END %]
+[% IF rmask %]<input type="hidden" name="rmask" id="rmask"
+       value="[% rmask %]">[% END %]
 <table class="user">
-<tr><td colspan="2">
+<tr><td colspan="2"> 
 [%- IF parent_id == 'root' -%]
 Creating a new root network
 [%- ELSE -%]
@@ -54,5 +61,6 @@ Creating a child of [% parent_network.address_range %]
 </td>
 </tr>
 </table>
+</div>
 </form>
 [% END -%]

@@ -78,6 +78,34 @@ div.address_range {
  vertical-align: top;
 }
 
+div.address_range div.summary {
+ display: inline-block;
+ vertical-align: top;
+}
+
+div.address_range div.details {
+ background-color: #fff;
+ margin: 4px;
+ border: 1px solid #aaa;
+}
+
+div.expander {
+ font-size: larger;
+ display: inline-block;
+ vertical-align: top;
+}
+
+div.expander:hover {
+ cursor: pointer;
+}
+
+.collapsed {
+ display: none;
+}
+
+h3.cidr:hover {
+}
+
 div.subdivide {
  background-color: #eceac6;
 }
