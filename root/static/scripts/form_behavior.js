@@ -17,12 +17,12 @@ function valid_masks_status() {
 }
 
 function expand_network_details() {
-  $('div.expander', $(this).closest('div.address_range')).html('&darr;');
+  $('div.expander', $(this).closest('div.address_range')).html('[&minus;]');
   $('div.details', $(this).closest('div.address_range')).removeClass('collapsed');
 };
 
 function collapse_network_details() {
-  $('div.expander', $(this).closest('div.address_range')).html('&rarr;');
+  $('div.expander', $(this).closest('div.address_range')).html('[+]');
   $('div.details', $(this).closest('div.address_range')).addClass('collapsed');
 };
 

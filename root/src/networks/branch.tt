@@ -7,7 +7,7 @@
 [% IF i.address_range -%]
   <li><div class="address_range [% IF i.subdivide %]subdivide[% ELSE %]nosubdivide[% END %]"
            db-id="[% i.id %]">
-    <div class="expander">&rarr;</div>
+    <div class="expander">[+]</div>
     <div class="summary"><h3 class="cidr">[% i.address_range %]</h3>
     <p class="range_description"
      ><span class="network_info owner">[% IF i.owner %][% i.owner %][% ELSE %]no owner entered[% END %]</span
