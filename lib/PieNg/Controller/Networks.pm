@@ -73,6 +73,20 @@ sub add :Local :Args(1) {
 
     my $params = $c->req->params;
 
+    if( $id ne 'root' ) {
+        $c->stash->{'fsfirst'} = $params->{'fsfirst'};
+        $c->stash->{'fslast'} = $params->{'fslast'};
+        $c->stash->{'rmask'} = $params->{'rmask'};
+        my $freespace = PieDB::FreeSpace->new(
+                          { first_ip => NetAddr::IP::Lite->new($params->{'fsfirst'}),
+                            last_ip => NetAddr::IP::Lite->new($params->{'fslast'}),
+                            subnet => $parent->net_addr_ip } );
+
+        $c->stash->{'fillnets'} = $freespace->fillnets(
+                                    $params->{'rmask'},
+                                    PieNg->config->{'fillnet_limit'} );
+    }
+
     # if we are actually submitting a form
     if(lc $c->req->method eq 'post' ) {
 
@@ -105,7 +119,8 @@ sub add :Local :Args(1) {
                               valid_masks => \@masks,
                               owner       => $params->{'owner'},
                               account     => $params->{'account'},
-                              service     => $params->{'service'} eq '' ? undef : $params->{'service'}});
+                              service     => $params->{'service'} eq '' ?
+                                                 undef : $params->{'service'}});
 
         # Do we have logical masks? (always true if we aren't subdividing)
         if( ! $new_network->masks_are_logical ) {
@@ -157,21 +172,6 @@ sub add :Local :Args(1) {
         $c->detach();
 
     }
-    else { # We need to display a form.
-
-        if( $id ne 'root' ) {
-            $c->stash->{'fsfirst'} = $params->{'fsfirst'};
-            $c->stash->{'fslast'} = $params->{'fslast'};
-            my $freespace = PieDB::FreeSpace->new(
-                              { first_ip => NetAddr::IP::Lite->new($params->{'fsfirst'}),
-                                last_ip => NetAddr::IP::Lite->new($params->{'fslast'}),
-                                subnet => $parent->net_addr_ip } );
-
-            $c->stash->{'fillnets'} = $freespace->fillnets(
-                                        $params->{'rmask'},
-                                        PieNg->config->{'fillnet_limit'} );
-        }
-    }
 }
 
 =head2 branch
@@ -197,6 +197,15 @@ sub branch :Local :Args(1) {
     $c->stash->{'branch'} = $network->branch_with_space;
 }
 
+=head2 delete
+
+=cut
+
+sub delete :Local :Args(1) {
+    my ($self, $c, $id) = @_;
+
+}
+
 =head2 roots
 
 Display a list of the base networks.
@@ -214,17 +223,24 @@ sub roots :Local :Args(0) {
     $c->stash->{'message'} = $c->flash->{'message'};
 }
 
+__PACKAGE__->meta->make_immutable;
+
 =head1 AUTHOR
 
-Tim Howe
+Tim Howe <timh@dirtymonday.net>
 
-=head1 LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
+This software is copyright (c) 2012 by Tim Howe.
+
+This program is distributed in the hope that it will be useful, but it is
+provided "as is" and without any express or implied warranties. For details,
+see the full text of the license in the file LICENSE.
+
+This code is free software; you can redistribute it and/or modify it under
+the terms of the Artistic License 2.0. For details, see the full text of the
+license in the file LICENSE.
 
 =cut
-
-__PACKAGE__->meta->make_immutable;
 
 1;
