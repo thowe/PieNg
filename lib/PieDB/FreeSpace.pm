@@ -74,7 +74,8 @@ sub BUILD {
     else {
         if( $self->first_ip->masklen() != 128 ||
             $self->last_ip->masklen() != 128 ) {
-            die $self->last_ip->cidr . 'first_ip and last_ip should not contain more than one address.';
+            die $self->last_ip->cidr . 'first_ip and last_ip should not' .
+                ' contain more than one address.';
         }
     }
 
