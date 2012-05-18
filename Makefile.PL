@@ -20,7 +20,7 @@ requires 'Config::General'; # This should reflect the config file format you've 
 
 requires 'DBD::Pg';
 requires 'Catalyst::Helper::Model::DBIC::Schema';
-requires 'MooseX::NonMoose';
+requires 'NetAddr::IP';
 requires 'Catalyst::View::TT';
 requires 'Catalyst::Plugin::Authentication';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
