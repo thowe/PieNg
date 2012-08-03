@@ -1,3 +1,5 @@
 inc
 blib
 Makefile
+META.yml
+Makefile.old
