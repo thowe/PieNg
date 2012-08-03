@@ -5,7 +5,7 @@ function range_input_status() {
   else {
     $('#input_address_range').attr( 'disabled', 'disabled' );
   }
-}
+};
 
 function valid_masks_status() {
   if ($('input[name="subdivide"]:checked').val() == 'true') {
@@ -14,7 +14,7 @@ function valid_masks_status() {
   else {
     $('#valid_masks').attr( 'disabled', 'disabled' );
   }
-}
+};
 
 function expand_network_details() {
   $('div.expander', $(this).closest('div.address_range')).html('[&minus;]');
