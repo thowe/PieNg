@@ -1,25 +1,37 @@
 #!/usr/bin/perl
 #
 # Launch like so:
-# perl -Ilib script/set_admin_password.pl
+# perl -Ilib script/set_admin_password.pl --pass thepasswordIwant \
+# --dbpass piedbpass --adminpass thepasswordIwant
+
 
 use strict;
 use warnings;
 use 5.010;
+use Getopt::Long;
 
 use PieDB::Schema;
 
 my $db_driver = 'Pg';
 my $db_name   = 'pieng';
 my $db_host   = 'localhost';
-my $db_user   = 'pieng';
-my $db_pass   = 'piepass';
+my $dbuser;
+my $dbpass;
 
-# What password do you want?
-my $admin_pass = 'mypass';
+my $admin_pass;
+
+GetOptions( 'adminpass=s' => \$admin_pass,
+            'dbuser=s'    => \$dbuser,
+            'dbpass=s'    => \$dbpass );
+
+if( !defined $admin_pass or !defined $dbuser or !defined $dbpass ) {
+    say "Usaage: perl -Ilib script/set_admin_password.pl --dbuser piedbuser \\\n" .
+        "        --dbpass piedbpass --adminpass thepasswordIwant";
+    exit;
+}
 
 my $schema = PieDB::Schema->connect("DBI:$db_driver:dbname=$db_name;host=$db_host",
-                                     $db_user,$db_pass, { quote_names => 1 });
+                                     $dbuser,$dbpass, { quote_names => 1 });
 
 my $admin = $schema->resultset('User')->find({
                 username => 'admin' });
@@ -33,6 +45,5 @@ else {
                 password => $admin_pass });
     my $role = $schema->resultset('Role')->find(
                    { name => 'administrator' });
-    say $role->name;
     $admin->user_roles->create({ role => $role->id });
 }
