@@ -23,6 +23,14 @@ div#navigation div.menu {
  display: inline-block;
 }
 
+div.message {
+ text-align: center;
+ background-color: #eee;
+ border: 2px solid #159;
+ padding-top: 2px;
+ padding-bottom: 2px;
+}
+
 div#content {
  width: 640px;
  margin-left: auto;
