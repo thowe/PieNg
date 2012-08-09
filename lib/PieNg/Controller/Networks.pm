@@ -100,9 +100,12 @@ sub add :Local :Args(1) {
            $params->{'address_range'}) {
             $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
         }
-        else {
+        elsif( defined $params->{'selected_address_range'} ) {
             $netaddrip = NetAddr::IP::Lite->new(
                              $params->{'selected_address_range'});
+        }
+        elsif( defined $params->{'address_range'} ) {
+            $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
         }
         if(!defined $netaddrip) {
             $c->stash->{'message'} = $params->{'address_range'} .
@@ -124,7 +127,7 @@ sub add :Local :Args(1) {
 
         # Do we have logical masks? (always true if we aren't subdividing)
         if( ! $new_network->masks_are_logical ) {
-            $c->stash->{'message'} = $params->{'masks'} .
+            $c->stash->{'message'} = $params->{'valid_masks'} .
                                      " doesn't make sense here.";
             return;
         }
@@ -193,8 +196,20 @@ sub branch :Local :Args(1) {
         $c->detach();
     }
 
-    $c->stash->{'network'} = $network;
-    $c->stash->{'branch'} = $network->branch_with_space;
+    if( $network->subdivide ) { 
+        $c->stash->{'network'} = $network;
+        $c->stash->{'branch'} = $network->branch_with_space;
+    }
+    elsif( $network->parent and $network->parent->subdivide ) {
+        $c->stash->{'network'} = $network->parent;
+        $c->stash->{'branch'} = $network->parent->branch_with_space;
+    }
+    else {
+        $c->flash->{'message'} = "No valid branch for that network.";
+        $c->response->redirect($c->uri_for(
+                    $c->controller('Networks')->action_for('roots')));
+        $c->detach();
+    }
 }
 
 =head2 delete
@@ -204,6 +219,52 @@ sub branch :Local :Args(1) {
 sub delete :Local :Args(1) {
     my ($self, $c, $id) = @_;
 
+}
+
+=head2 edit
+
+=cut
+
+sub edit :Local :Args(1) {
+    my ($self, $c, $id) = @_;
+    $c->stash->{'template'} = 'networks/edit.tt';
+
+    # Are we an editor?  If not, fail.
+    if( !$c->check_any_user_role( qw/ administrator creator editor / ) ) {
+        $c->flash->{'message'} = "You are not allowed to edit networks.";
+        $c->response->redirect($c->uri_for(
+            $c->controller('Networks')->action_for('roots')));
+        $c->detach();
+    }
+
+    my $network = $c->model('PieDB::Network')->find({
+                      id => $id });
+    if( !defined $network ) {
+        $c->flash->{'message'} = "No network with that id.";
+        $c->response->redirect($c->uri_for(
+                    $c->controller('Networks')->action_for('roots')));
+        $c->detach();
+    }
+
+    $c->stash->{'network'} = $network;
+
+    # if we are actually submitting a form
+    if(lc $c->req->method eq 'post' ) {
+        my $params = $c->req->params;
+
+        # The masks will be in a text field, but we want an array.
+        my @masks = $params->{'valid_masks'} =~ /(\d+)/g;
+        @masks = sort {$a <=> $b} @masks;
+
+        $network->set_columns({
+                description => $params->{'description'},
+                subdivide   => $params->{'subdivide'},
+                valid_masks => \@masks,
+                owner       => $params->{'owner'},
+                account     => $params->{'account'},
+                service     => $params->{'service'} eq '' ?
+                                   undef : $params->{'service'} });
+    }
 }
 
 =head2 roots
