@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 #
 # Launch like so:
-# perl -Ilib script/set_admin_password.pl --pass thepasswordIwant \
-# --dbpass piedbpass --adminpass thepasswordIwant
+# perl -Ilib script/set_admin_password.pl --adminpass thepasswordIwant \
+# --dbuser piedbuser --dbpass piedbpass
 
 
 use strict;
