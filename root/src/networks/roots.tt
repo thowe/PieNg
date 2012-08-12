@@ -8,6 +8,8 @@
 <td>[% root.address_range %]</td><td>[% root.description %]</td>
 <td><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
                            (root.id) ) %]">branch</a></td>
+<td><a href="[% c.uri_for( c.controller('Networks').action_for('edit'),
+                           (root.id) ) %]">edit</a></td>
 </tr>
 [% END -%]
 [% ELSE -%]

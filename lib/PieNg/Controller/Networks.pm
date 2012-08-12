@@ -113,6 +113,13 @@ sub add :Local :Args(1) {
             return;
         }
 
+        if( defined $params->{'service'} and $params->{'service'} ne '' and
+            $params->{'service'} =~ m/[^0-9.]/ ) {
+
+            $c->stash->{'message'} = "Service ID should be an integer.";
+            return
+        }
+
         # Let's create our (potential) new network instance.
         my $new_network = $c->model('PieDB::Network')->new({
                               parent => $parent_id,
@@ -128,7 +135,7 @@ sub add :Local :Args(1) {
         # Do we have logical masks? (always true if we aren't subdividing)
         if( ! $new_network->masks_are_logical ) {
             $c->stash->{'message'} = $params->{'valid_masks'} .
-                                     " doesn't make sense here.";
+                                     " aren't logical masks here.";
             return;
         }
 
@@ -186,6 +193,7 @@ Display the portion of the tree under a specific network.
 sub branch :Local :Args(1) {
     my ($self, $c, $id) = @_;
     $c->stash->{'template'} = 'networks/branch.tt';
+    $c->stash->{'message'} = $c->flash->{'message'};
 
     my $network = $c->model('PieDB::Network')->find({
                       id => $id });
@@ -237,8 +245,7 @@ sub edit :Local :Args(1) {
         $c->detach();
     }
 
-    my $network = $c->model('PieDB::Network')->find({
-                      id => $id });
+    my $network = $c->model('PieDB::Network')->find({ id => $id });
     if( !defined $network ) {
         $c->flash->{'message'} = "No network with that id.";
         $c->response->redirect($c->uri_for(
@@ -248,6 +255,19 @@ sub edit :Local :Args(1) {
 
     $c->stash->{'network'} = $network;
 
+    # We will want to remember the referring URI so that once login
+    # works we can get directed to it.
+    my $referer;
+    my $path = $c->req->path;
+    if( defined $c->req->params->{'referer'} ) {
+        $referer = $c->req->params->{'referer'};
+    }
+    else {
+        $referer = $c->req->referer;
+    }
+
+    $c->stash->{'referer'} = $referer;
+
     # if we are actually submitting a form
     if(lc $c->req->method eq 'post' ) {
         my $params = $c->req->params;
@@ -255,6 +275,13 @@ sub edit :Local :Args(1) {
         # The masks will be in a text field, but we want an array.
         my @masks = $params->{'valid_masks'} =~ /(\d+)/g;
         @masks = sort {$a <=> $b} @masks;
+
+        if( defined $params->{'service'} and $params->{'service'} ne '' and
+            $params->{'service'} =~ m/[^0-9.]/ ) {
+
+            $c->stash->{'message'} = "Service ID should be an integer.";
+            return;
+        }
 
         $network->set_columns({
                 description => $params->{'description'},
@@ -264,6 +291,40 @@ sub edit :Local :Args(1) {
                 account     => $params->{'account'},
                 service     => $params->{'service'} eq '' ?
                                    undef : $params->{'service'} });
+
+        my %changed_cols = $network->get_dirty_columns;
+
+        # We don't want to exclude existing children when changing valid_masks.
+        if( defined $changed_cols{'valid_masks'} and $network->subdivide and
+            $network->has_children ) {
+
+            my @net_children = $network->networks;
+            foreach my $child (@net_children) {
+                if( ! grep {$_ eq $child->net_addr_ip->masklen} @{$network->valid_masks} ) {
+                    $c->stash->{'message'} =
+                        "You can't change your masks to exclude an existing child.";
+                    return;
+                }
+            }
+        }
+
+        # Do we have logical masks? (always true if we aren't subdividing)
+        if( ! $network->masks_are_logical ) {
+            $c->stash->{'message'} = $params->{'valid_masks'} .
+                                     " aren't logical netmasks here.";
+            return;
+        }
+
+        $network->update;
+        $c->flash->{'message'} = $network->address_range . " edited";
+        if( defined $referer and $referer !~ /$path/ ) {
+            $c->res->redirect($referer);
+        }
+        else {
+            $c->response->redirect($c->uri_for(
+                $c->controller('Networks')->action_for('roots')));
+        }
+        $c->detach();
     }
 }
 

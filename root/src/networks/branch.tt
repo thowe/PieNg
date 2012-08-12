@@ -15,7 +15,9 @@
      ><span class="network_info account">[% IF i.account %]account: [% i.account %][% ELSE %][% END %]</span
      ><span class="network_info service">[% IF i.service %]service: [% i.service %][% ELSE %][% END %]</span></p>
     </div>
-    <div class="details collapsed">zoom in | edit</div>
+    <div class="details collapsed"><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
+                           (i.id) ) %]">zoom in</a> |
+        <a href="[% c.uri_for( c.controller('Networks').action_for('edit'), (i.id) ) %]">edit</a></div>
     </div></li>
 [% ELSE -%]
   <li>free space - insert network
