@@ -110,6 +110,10 @@ div.expander:hover {
  display: none;
 }
 
+h3.cidr {
+ color: #676;
+}
+
 h3.cidr:hover {
 }
 
