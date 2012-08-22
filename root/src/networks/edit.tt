@@ -1,0 +1,52 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>Editing [% network.address_range %]</h3>
+<form action="[% c.uri_for(c.controller('Networks').action_for('edit'), network.id ) %]"
+      method="post">
+<div class="form_table">
+[%- IF referer %]
+<input type="hidden" name="referer" value="[% referer %]">
+[% END -%]
+<table class="user">
+<td><label for="description">Description:</label></td>
+<td><input type="text" id="description" name="description"
+     value="[% network.description %]"></td>
+</tr>
+<tr>
+<td><label for="owner">Owner:</label></td>
+<td><input type="text" id="owner" name="owner"
+     value="[% network.owner %]"></td>
+</tr>
+<tr>
+<td><label for="account">Account:</label></td>
+<td><input type="text" id="account" name="account"
+     value="[% network.account %]"></td>
+</tr>
+<tr>
+<td><label for="service">Service ID:</label></td>
+<td><input type="text" id="service" name="service"
+     value="[% network.service %]"></td>
+</tr>
+<tr>
+<td>Will this range be subdivided?</td>
+<td><label for="subdivide_t">yes
+</label><input type="radio" name="subdivide" id="subdivide_t" value="true" [% IF network.subdivide %]checked[% END %]>
+<label for="subdivide_f">no
+</label><input type="radio" name="subdivide" id="subdivide_f" value="false" [% IF not network.subdivide %]checked[% END %]></td>
+</tr>
+<tr>
+<td><label for="valid_masks">Valid Subnet Masks:</label></td>
+<td><input type="text" id="valid_masks" name="valid_masks" [% IF not network.subdivide %]disabled[% END %]
+[%- IF network.valid_masks -%]
+value="
+[%- FOREACH vmask IN network.valid_masks %][% vmask %] [% END -%]
+">[% END %]</td>
+</tr>
+<tr>
+<td colspan="2" class="buttons">
+<input type="submit" id="editbutton" name="editbutton" value="Edit">
+</td>
+</tr>
+</table>
+</div>
+</form>
+[% END -%]
