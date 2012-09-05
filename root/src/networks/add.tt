@@ -26,7 +26,7 @@ Creating a child of [% parent_network.address_range %]
 [% END -%]
 </select>
 [% END -%]
-<br><input type="text" id="input_address_range" name="address_range"></td>
+<br><input type="text" id="address_range" name="address_range"></td>
 </tr>
 <tr>
 <td><label for="description">Description:</label></td>

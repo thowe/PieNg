@@ -7,6 +7,7 @@
 <input type="hidden" name="referer" value="[% referer %]">
 [% END -%]
 <table class="user">
+<tr>
 <td><label for="description">Description:</label></td>
 <td><input type="text" id="description" name="description"
      value="[% network.description %]"></td>

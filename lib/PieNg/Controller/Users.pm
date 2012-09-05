@@ -241,7 +241,6 @@ sub logout :Local :Args(0) {
     $c->stash->{'template'} = 'users/logout.tt';
 
     $c->logout();
-    $c->stash->{'message'} = 'You have been logout out.';
 }
 
 =head1 AUTHOR

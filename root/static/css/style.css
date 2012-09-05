@@ -97,6 +97,10 @@ div.address_range div.details {
  border: 1px solid #aaa;
 }
 
+li.child-list {
+ list-style: none;
+}
+
 div.expander {
  display: inline-block;
  vertical-align: top;

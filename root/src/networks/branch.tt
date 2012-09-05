@@ -1,12 +1,14 @@
 [% WRAPPER site/wide_wrapper -%]
 <h1>Branch of [% network.address_range %]</h1>
+
 [% VIEW nested_branch -%]
 [% BLOCK list -%]
 <ul>
 [% FOREACH i IN item -%]
+
 [% IF i.address_range -%]
   <li><div class="address_range [% IF i.subdivide %]subdivide[% ELSE %]nosubdivide[% END %]"
-           db-id="[% i.id %]">
+           data-networkid="[% i.id %]">
     <div class="expander">[+]</div>
     <div class="summary"><h3 class="cidr">[% i.address_range %]</h3>
     <p class="range_description"
@@ -25,11 +27,14 @@
     <a href="[% c.uri_for( c.controller('Networks').action_for('add'), i.pieng_network_id,
                        { fsfirst => i.first_ip_compact,
                          fslast => i.last_ip_compact,
-                         rmask => mask } ) %]">/[% mask %]</a>
-    [%- END %]<br />[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
+                         rmask => mask } ) FILTER html %]">/[% mask %]</a>
+    [%- END %]<br>[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
 [% END -%]
+
 [% IF i.children -%]
+<li class="child-list">
 [% view.print(i.children.list) -%]
+</li>
 [% END -%]
 [% END -%]
 </ul>

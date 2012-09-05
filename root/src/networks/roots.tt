@@ -1,7 +1,7 @@
 [% WRAPPER site/default_wrapper -%]
 <h3>Network Roots</h3>
 <table class="userlist">
-<tr><th>Network</th><th>Comment</th></tr>
+<tr><th>Network</th><th>Comment</th><th></th><th></th></tr>
 [%- IF roots.count %]
 [%- WHILE (root = roots.next) %]
 <tr>
@@ -18,5 +18,4 @@
 </tr>
 [% END -%]
 </table>
-</form>
 [% END -%]

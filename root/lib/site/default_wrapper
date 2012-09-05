@@ -4,6 +4,6 @@
 [% IF message -%]
 <div class="message">[% message %]</div>
 [%- END %]
-[% content %]
+[%- content -%]
 </div>
-[% INCLUDE site/default_bottom %]
+[% INCLUDE site/default_bottom -%]

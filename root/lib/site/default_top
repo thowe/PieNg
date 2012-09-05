@@ -1,12 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-"http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>PieNg</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet"
-      href="/static/css/style.css" type="text/css" media="screen"
-      charset="us-ascii">
+<link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen">
 <script type="text/javascript" src="/static/jq/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/static/scripts/form_behavior.js"></script>
 </head>
