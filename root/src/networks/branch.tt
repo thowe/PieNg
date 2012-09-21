@@ -1,5 +1,22 @@
 [% WRAPPER site/wide_wrapper -%]
-<h1>Branch of [% network.address_range %]</h1>
+<!-- hidden templates -->
+<div class="templates">
+  <div class="template add_host">
+  <form action="[% c.uri_for(c.controller('Hosts').action_for('add')) %]"
+        method="post" class="add_host">
+    <table class="add_host">
+      <tr>
+        <th>Host Address</th><th>Description</th><th>Add or Edit</th>
+      </tr>
+      <tr>
+        <td><input type="text" name="hostaddress"></td>
+        <td><input type="text" name="hostdescription"></td>
+        <td><input type="submit" name="hostaddbutton" value="Add/Change"></td>
+      </tr>
+    </table>
+  </form>
+  </div>
+</div><h1>Branch of [% network.address_range %]</h1>
 
 [% VIEW nested_branch -%]
 [% BLOCK list -%]
@@ -13,9 +30,9 @@
     <div class="summary"><h3 class="cidr">[% i.address_range %]</h3>
     <p class="range_description"
      ><span class="network_info owner">[% IF i.owner %][% i.owner %][% ELSE %]no owner entered[% END %]</span
-     ><span class="network_info description">[% IF i.description %][% i.description %][% ELSE %][% END %]</span
-     ><span class="network_info account">[% IF i.account %]account: [% i.account %][% ELSE %][% END %]</span
-     ><span class="network_info service">[% IF i.service %]service: [% i.service %][% ELSE %][% END %]</span></p>
+     ><span class="network_info description">[% IF i.description %][% i.description %][% END %]</span
+     ><span class="network_info account">[% IF i.account %]account: [% i.account %][% END %]</span
+     ><span class="network_info service">[% IF i.service %]service: [% i.service %][% END %]</span></p>
     </div>
     <div class="details collapsed"><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
                            (i.id) ) %]">zoom in</a> |
