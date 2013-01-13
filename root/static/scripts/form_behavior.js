@@ -28,6 +28,7 @@ function expand_network_details() {
 
   if( $('form.add_host', $(this).closest('div.address_range')).length == 0 ) {
     var networkID = $(this).closest('div.address_range').data('networkid');
+    detail_div.append($('div.template.hosts').children().clone());
     detail_div.append(genAddHost(networkID));
   }
 };

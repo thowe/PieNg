@@ -1,6 +1,9 @@
-[% WRAPPER site/wide_wrapper -%]
+[% WRAPPER site/branch_wrapper -%]
 <!-- hidden templates -->
 <div class="templates">
+  <div class="template hosts">
+  <div class="hosts"><p>No host details specified.</p></div>
+  </div>
   <div class="template add_host">
   <form action="[% c.uri_for(c.controller('Hosts').action_for('add')) %]"
         method="post" class="add_host">
