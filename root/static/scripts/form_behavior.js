@@ -26,10 +26,12 @@ function expand_network_details() {
   var detail_div = $('div.details', $(this).closest('div.address_range'));
   detail_div.removeClass('collapsed');
 
-  if( $('form.add_host', $(this).closest('div.address_range')).length == 0 ) {
-    var networkID = $(this).closest('div.address_range').data('networkid');
-    detail_div.append($('div.template.hosts').children().clone());
-    detail_div.append(genAddHost(networkID));
+  if( $(this).closest('div.address_range').hasClass('nosubdivide') ) {
+    if( $('form.add_host', $(this).closest('div.address_range')).length == 0 ) {
+      var networkID = $(this).closest('div.address_range').data('networkid');
+      detail_div.append($('div.template.hosts').children().clone());
+      detail_div.append(genAddHost(networkID));
+    }
   }
 };
 
