@@ -22,6 +22,7 @@ requires 'DBD::Pg';
 requires 'Catalyst::Helper::Model::DBIC::Schema';
 requires 'NetAddr::IP';
 requires 'Catalyst::View::TT';
+requires 'Catalyst::View::JSON';
 requires 'Catalyst::Plugin::Authentication';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::Plugin::Authorization::Roles';

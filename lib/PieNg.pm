@@ -48,13 +48,16 @@ __PACKAGE__->config(
     #name => 'PieNg',
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
-
+    default_view => 'HTML',
     'View::HTML' => {
         INCLUDE_PATH => [ __PACKAGE__->path_to('root', 'src'),
                           __PACKAGE__->path_to('root', 'lib')],
         TEMPLATE_EXTENSION => '.tt',
         CATALYST_VAR       => 'c',
         TIMER              => 0,
+    },
+    'View::Service' => {
+        expose_stash => 'jsondata',
     },
     'Plugin::Authentication' => {
         default => {
