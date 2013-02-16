@@ -1,5 +1,6 @@
 inc
 blib
+*.swp
 Makefile
 META.yml
 Makefile.old
