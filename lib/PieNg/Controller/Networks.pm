@@ -46,12 +46,25 @@ sub add :Local :Args(1) {
         $c->detach();
     }
 
+    # We will want to remember the referring URI so that
+    # we can get directed to it.
+    my $referer;
+    my $path = $c->req->path;
+    if( defined $c->req->params->{'referer'} ) {
+        $referer = $c->req->params->{'referer'};
+    }
+    else {
+        $referer = $c->req->referer;
+    }
+
+    $c->stash->{'referer'} = $referer;
+
     # Handle URI arguments.
     if( $id eq 'root' ) {
         # used by the form
         $c->stash->{'parent_id'} = 'root';
     }
-    elsif( $id =~ /^\d+$/ ) {
+    elsif( $id =~ /\A\d+\z/ ) {
         $parent = $c->model('PieDB::Network')->find({
                       id => $id });
         if( !defined $parent ) {
@@ -176,9 +189,14 @@ sub add :Local :Args(1) {
         }
 
         $new_network->insert;
-        $c->flash->{'message'} = $new_network->address_range . " added";
-        $c->response->redirect($c->uri_for(
-            $c->controller('Networks')->action_for('roots')));
+
+        if( defined $referer and $referer !~ /$path/ ) {
+            $c->res->redirect($referer);
+        }
+        else {
+            $c->response->redirect($c->uri_for(
+                $c->controller('Networks')->action_for('roots')));
+        }
         $c->detach();
 
     }

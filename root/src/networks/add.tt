@@ -2,6 +2,9 @@
 <form action="[% c.uri_for(c.controller('Networks').action_for('add'), parent_id ) %]"
       method="post">
 <div class="form_table">
+[%- IF referer %]
+<input type="hidden" name="referer" value="[% referer %]">
+[% END -%]
 [% IF fsfirst %]<input type="hidden" name="fsfirst" id="fsfirst"
        value="[% fsfirst %]">[% END %]
 [% IF fslast %]<input type="hidden" name="fslast" id="fslast"
