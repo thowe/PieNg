@@ -1,0 +1,12 @@
+<table class="hostlist">
+<tr><th>Address</th><th>Description</th></tr>
+[% IF hosts -%]
+[% WHILE (host = hosts.next) -%]
+<tr>
+<td>[% host.address %]</td><td>[% host.description %]</td>
+</tr>
+[% END -%]
+[% ELSE -%]
+<tr><td rowspan="2">no host details for this network</td></tr>
+[% END -%]
+</table>

@@ -21,23 +21,40 @@ function genAddHost(net_id) {
       $('<input>', { type: "hidden", name: "networkid", value: net_id }) );
 }
 
-function get_hosts(hosts_div) {
-    networkID = hosts_div.closest('div.address_range').data('networkid');
-    hosts_div.html("<p>Filled in from function for " + networkID + "</p>");
+function get_hosts(net_id) {
+    listtableURI = $('#ahostlisttable').attr('href');
+    var $div_ad = $('div.address_range').filter(function()
+                  { return ($(this).data("networkid") == net_id) });
+    hosts_div = $('div.hosts', $div_ad);
+    hosts_div.load(listtableURI + '/' + net_id);
 }
 
 function add_host(event) {
     event.preventDefault();
-     var $form = $(this),
+    var $form = $(this),
         address = $form.find( 'input[name="hostaddress"]' ).val(),
         description = $form.find( 'input[name="hostdescription"]' ).val(),
         id = $form.find( 'input[name="networkid"]' ).val(),
         url = $form.attr( 'action' );
+
+    // Ask for confirmation on delete.
+    if( description == '' &&
+        address != '' &&
+        ! confirm("Are you sure you want to delete " + address + "?") ) {
+        return;
+    }
+
     var posting = $.post( url, { hostaddress: address,
                                  hostdescription: description,
                                  networkid: id }, 'json' );
+
     posting.done( function(data) {
-        alert("Message: " + data.message);
+        if(data.code) {
+            alert("Message: " + data.message);
+        }
+        else {
+            get_hosts(data.id);
+        }
     });
 };
 
@@ -54,7 +71,7 @@ function expand_collapse_network_details() {
         detail_div.append($host_objs);
         detail_div.append(genAddHost(networkID));
         $('form.add_host', $(this).closest('div.address_range')).on('submit', add_host);
-        get_hosts($('div.hosts', $(this).closest('div.address_range')));
+        get_hosts($(this).closest('div.address_range').data('networkid'));
       }
     }
   }

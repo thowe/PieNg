@@ -1,11 +1,13 @@
 [% WRAPPER site/branch_wrapper -%]
 <!-- hidden templates -->
 <div class="templates">
+  <!-- This is generated here for use by the jQ get_hosts function. -->
+  <a id="ahostlisttable" href="[% c.uri_for(c.controller('Hosts').action_for('listtable')) %]">listtable</a>
   <div class="template hosts">
   <div class="hosts"><p>No host details specified.</p></div>
   </div>
   <div class="template add_host">
-  <form action="[% c.uri_for(c.controller('Hosts').action_for('add')) %]"
+  <form action="[% c.uri_for(c.controller('Hosts').action_for('edit')) %]"
         method="post" class="add_host">
     <table class="add_host">
       <tr>
