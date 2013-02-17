@@ -327,7 +327,7 @@ sub following_addr {
 sub has_children {
     my ($self) = @_;
 
-    if( $self->networks ) {
+    if( $self->networks->count ) {
         return 1;
     }
     else { return 0; }
