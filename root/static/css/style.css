@@ -85,6 +85,26 @@ table.add_host th {
  font-weight: normal;
 }
 
+table.hostlist {
+ margin-top: 4px;
+ margin-left: 2px;
+ margin-right: 2px;
+}
+
+table.hostlist tr:nth-child(even) {
+ background: #eee;
+}
+
+table.hostlist, table.hostlist td, table.hostlist th {
+ border-style: solid;
+ border-collapse: collapse;
+ border-width: 1px;
+}
+
+table.hostlist td,table.hostlist th  {
+ font-size: smaller;
+}
+
 div.address_range {
  border: 1px solid black;
  display: inline-block;

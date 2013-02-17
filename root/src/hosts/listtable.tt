@@ -7,6 +7,6 @@
 </tr>
 [% END -%]
 [% ELSE -%]
-<tr><td rowspan="2">no host details for this network</td></tr>
+<tr><td colspan="2">no host details for this network</td></tr>
 [% END -%]
 </table>
