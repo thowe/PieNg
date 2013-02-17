@@ -94,5 +94,8 @@ $(function() {
 });
 
 $(function() {
-    $('form.add_host').on('submit',function(event){ alert($(this).text()); });
+    $('a.deletenetwork').on('click',function(event){
+            var answer = confirm("Are you sure you want to delete this network?");
+            if( ! answer ) { event.preventDefault(); }
+        });
 });

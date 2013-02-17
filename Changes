@@ -1,5 +1,10 @@
 This file documents the revision history for Perl extension PieNg.
 
+0.80a 2013-02-17 13:44:00
+	- All basic management features implemented in some way.
+	  Add, edit, and delete of networks and hosts can be done.
+	  I will call this alpha status and ready to be tested.
+
 0.03  2012-04-15 10:36:43
 	- can add root networks and rudimentary view of network branches
 

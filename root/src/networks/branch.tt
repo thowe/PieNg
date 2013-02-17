@@ -41,7 +41,9 @@
     </div>
     <div class="details collapsed"><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
                            (i.id) ) %]">zoom in</a> |
-        <a href="[% c.uri_for( c.controller('Networks').action_for('edit'), (i.id) ) %]">edit</a></div>
+        <a href="[% c.uri_for( c.controller('Networks').action_for('edit'), (i.id) ) %]">edit</a> |
+        <a href="[% c.uri_for( c.controller('Networks').action_for('delete'), (i.id) ) %]"
+           class="deletenetwork">delete</a></div>
     </div></li>
 [% ELSE -%]
   <li>free space - insert network

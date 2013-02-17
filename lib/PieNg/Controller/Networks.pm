@@ -244,7 +244,60 @@ sub branch :Local :Args(1) {
 
 sub delete :Local :Args(1) {
     my ($self, $c, $id) = @_;
+    my $network;
 
+    # We will want to remember the referring URI so that
+    # we can get directed to it.
+    my $referer = $c->req->referer;
+
+    # Are we a creator?  If not, fail.
+    if( !$c->check_any_user_role( qw/ administrator creator / ) ) {
+        $c->flash->{'message'} = "You are not allowed to delete networks.";
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+
+    # make sure it's an integer so DBIC doesn't complain
+    if( $id =~ /\A\d+\z/ ) {
+        $network = $c->model('PieDB::Network')->find( { id => $id } );
+    }
+    else {
+        $c->flash->{'message'} = "That's not even an integer.  What are you trying to pull?";
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+
+    # it has to actually exist
+    if( !defined $network ){
+        $c->flash->{'message'} = "There is no network with that id.";
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+
+    if( $network->has_children ) {
+        $c->flash->{'message'} = "There are networks under " . $network->cidr_compact;
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+
+    if( $network->hosts->count ) {
+        $c->flash->{'message'} = "There are hosts defined under " . $network->cidr_compact;
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+
+    $network->delete;
+
+    if( not $network->in_storage ) {
+        $c->flash->{'message'} = "Deleted " . $network->cidr_compact;
+        $c->res->redirect($referer);
+        $c->detach();
+    }
+    else {
+        $c->flash->{'message'} = "Network didn't delete.  I don't know why.";
+        $c->res->redirect($referer);
+        $c->detach();
+    }
 }
 
 =head2 edit
