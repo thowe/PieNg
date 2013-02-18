@@ -27,9 +27,11 @@ my $conn = $cfg->[0]->{'pieng.conf'}->{
                          'Model::PieDB'}->{
                            'connect_info'};
 
-my $schema = PieDB::Schema->connect( $conn->{'dsn'},
-                                     $conn->{'user'},
-                                     $conn->{'password'} );
+my $schema = PieDB::Schema->connect(  $conn->{'dsn'},
+                                      $conn->{'user'},
+                                      $conn->{'password'},
+                                      { 'AutoCommit' => $conn->{'AutoCommit'},
+                                      'quote_names' => $conn->{'quote_names'} } );
 
 my $admin = $schema->resultset('User')->find({
                 username => $admin_user });
@@ -42,6 +44,6 @@ else {
                 username => $admin_user,
                 password => $admin_pass });
     my $role = $schema->resultset('Role')->find(
-                   { name => $admin_user });
+                   { name => 'administrator' });
     $admin->user_roles->create({ role => $role->id });
 }
