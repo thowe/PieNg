@@ -1,49 +1,47 @@
 #!/usr/bin/perl
 #
 # Launch like so:
-# perl -Ilib script/set_admin_password.pl --adminpass thepasswordIwant \
-# --dbuser piedbuser --dbpass piedbpass
-
+# perl -Ilib script/set_admin_password.pl --user admin --pass MyPass
 
 use strict;
 use warnings;
 use 5.010;
 use Getopt::Long;
+use Config::Any;
 
 use PieDB::Schema;
 
-my $db_driver = 'Pg';
-my $db_name   = 'pieng';
-my $db_host   = 'localhost';
-my $dbuser;
-my $dbpass;
+my ($admin_pass, $admin_user);
 
-my $admin_pass;
+GetOptions( 'pass=s' => \$admin_pass,
+            'user=s' => \$admin_user, );
 
-GetOptions( 'adminpass=s' => \$admin_pass,
-            'dbuser=s'    => \$dbuser,
-            'dbpass=s'    => \$dbpass );
-
-if( !defined $admin_pass or !defined $dbuser or !defined $dbpass ) {
-    say "Usaage: perl -Ilib script/set_admin_password.pl --dbuser piedbuser \\\n" .
-        "        --dbpass piedbpass --adminpass thepasswordIwant";
+if( !defined $admin_pass or !defined $admin_user ) {
+    say "Usaage: perl -Ilib script/set_admin_password.pl --user admin --pass MyPass" .
     exit;
 }
 
-my $schema = PieDB::Schema->connect("DBI:$db_driver:dbname=$db_name;host=$db_host",
-                                     $dbuser,$dbpass, { quote_names => 1 });
+my $cfg = Config::Any->load_files( { files => [ 'pieng.conf' ],
+                                     use_ext => 1 } );
+my $conn = $cfg->[0]->{'pieng.conf'}->{
+                         'Model::PieDB'}->{
+                           'connect_info'};
+
+my $schema = PieDB::Schema->connect( $conn->{'dsn'},
+                                     $conn->{'user'},
+                                     $conn->{'password'} );
 
 my $admin = $schema->resultset('User')->find({
-                username => 'admin' });
+                username => $admin_user });
 
 if (defined $admin) {
     $admin->update({ password => $admin_pass });
 }
 else {
     $admin = $schema->resultset('User')->create({
-                username => 'admin',
+                username => $admin_user,
                 password => $admin_pass });
     my $role = $schema->resultset('Role')->find(
-                   { name => 'administrator' });
+                   { name => $admin_user });
     $admin->user_roles->create({ role => $role->id });
 }
