@@ -21,7 +21,12 @@
     </table>
   </form>
   </div>
-</div><h1>Branch of [% network.address_range %]</h1>
+</div>
+<h1 id="branch_heading">Branch of [% network.address_range %]</h1>
+<p>[% network.description %][% IF network.account %] | account: [% network.account %][% END -%]
+   [% IF network.service %] | service: [% network.service %][% END %]</span><br>
+   [% IF network.parent.id %]<a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
+                           (network.parent.id) ) %]">zoom out</a>[% END %]</p>
 
 [% VIEW nested_branch -%]
 [% BLOCK list -%]
