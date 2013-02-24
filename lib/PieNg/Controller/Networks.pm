@@ -104,12 +104,16 @@ sub add :Local :Args(1) {
     if(lc $c->req->method eq 'post' ) {
 
         # The masks will be in a text field, but we want an array.
-        my @masks = $params->{'valid_masks'} =~ /(\d+)/g;
-        @masks = sort {$a <=> $b} @masks;
+        my @masks;
+        if( $params->{'valid_masks'} ) {
+            @masks = $params->{'valid_masks'} =~ /(\d+)/g;
+            @masks = sort {$a <=> $b} @masks;
+        }
 
         # Is the network a valid network?  (meaning Net::Addr::IP thinks so)
         my $netaddrip;
-        if($params->{'selected_address_range'} eq 'manual_input' and
+        if($params->{'selected_address_range'} and
+           $params->{'selected_address_range'} eq 'manual_input' and
            $params->{'address_range'}) {
             $netaddrip = NetAddr::IP::Lite->new($params->{'address_range'});
         }
@@ -344,8 +348,11 @@ sub edit :Local :Args(1) {
         my $params = $c->req->params;
 
         # The masks will be in a text field, but we want an array.
-        my @masks = $params->{'valid_masks'} =~ /(\d+)/g;
-        @masks = sort {$a <=> $b} @masks;
+        my @masks;
+        if( $params->{'valid_masks'} ) {
+            @masks = $params->{'valid_masks'} =~ /(\d+)/g;
+            @masks = sort {$a <=> $b} @masks;
+        }
 
         if( defined $params->{'service'} and $params->{'service'} ne '' and
             $params->{'service'} =~ m/[^0-9.]/ ) {
