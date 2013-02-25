@@ -15,12 +15,12 @@
 <tr>
 <td><label for="owner">Owner:</label></td>
 <td><input type="text" id="owner" name="owner"
-     value="[% network.owner %]"></td>
+     maxlength="255" value="[% network.owner %]"></td>
 </tr>
 <tr>
 <td><label for="account">Account:</label></td>
 <td><input type="text" id="account" name="account"
-     value="[% network.account %]"></td>
+     maxlength="32" value="[% network.account %]"></td>
 </tr>
 <tr>
 <td><label for="service">Service ID:</label></td>

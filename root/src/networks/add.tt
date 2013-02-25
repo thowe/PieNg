@@ -37,11 +37,11 @@ Creating a child of [% parent_network.address_range %]
 </tr>
 <tr>
 <td><label for="owner">Owner:</label></td>
-<td><input type="text" id="owner" name="owner"></td>
+<td><input type="text" id="owner" name="owner" maxlength="255"></td>
 </tr>
 <tr>
 <td><label for="account">Account:</label></td>
-<td><input type="text" id="account" name="account"></td>
+<td><input type="text" id="account" name="account" maxlength="32"></td>
 </tr>
 <tr>
 <td><label for="service">Service ID:</label></td>
