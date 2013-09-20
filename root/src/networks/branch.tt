@@ -51,13 +51,13 @@
            class="deletenetwork">delete</a></div>
     </div></li>
 [% ELSE -%]
-  <li>free space - insert network
+  <li><div class="freespace">free space - insert network
     [%- FOREACH mask IN i.valid_masks %]
     <a href="[% c.uri_for( c.controller('Networks').action_for('add'), i.pieng_network_id,
                        { fsfirst => i.first_ip_compact,
                          fslast => i.last_ip_compact,
                          rmask => mask } ) FILTER html %]">/[% mask %]</a>
-    [%- END %]<br>[% i.first_ip_compact %] to [% i.last_ip_compact %]</li>
+    [%- END %]<br>[% i.first_ip_compact %] to [% i.last_ip_compact %]</div></li>
 [% END -%]
 
 [% IF i.children -%]

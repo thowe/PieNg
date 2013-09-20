@@ -130,6 +130,10 @@ div.address_range div.details {
  border: 1px solid #aaa;
 }
 
+div.freespace {
+ color: #777;
+}
+
 li.child-list {
  list-style: none;
 }
