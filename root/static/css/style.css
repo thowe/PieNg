@@ -40,7 +40,8 @@ div.templates {
 }
 
 div#content {
- width: 640px;
+ max-width: 86%;
+ min-width: 50%;
  margin-left: auto;
  margin-right: auto;
  margin-top: 10px;

@@ -423,6 +423,52 @@ sub roots :Local :Args(0) {
     $c->stash->{'message'} = $c->flash->{'message'};
 }
 
+=head2 search
+
+Search through the networks for a particular string, which may be
+an IP address, a network, or any other part of a record.
+
+=cut
+
+sub search :Local :Args(0) {
+    my ($self, $c) = @_;
+    $c->stash->{'template'} = 'networks/search.tt';
+
+    # if we are actually submitting a form
+    if(lc $c->req->method eq 'post' ) {
+        my $params = $c->req->params;
+        $c->stash->{'searched_term'} = $params->{'term'};
+        my $search_rs;
+
+        # Is the search term a valid network? (meaning Net::Addr::IP thinks so)
+        # If so, we will search the db for a network containing the term.
+        # If not, we will search the other network attributes.
+        my $netaddrip;
+        $netaddrip = NetAddr::IP::Lite->new($params->{'term'});
+        if(defined $netaddrip) {
+
+            # NetAddr::IP will accept more variations of input than will PostgreSQL.
+            # We will need to sanitize it a bit to make sure it is really valid
+            # for Pg.  We do this with the same logic as in our Network class.
+            # I should probably derive a new object from NetAddr::IP::Lite and define
+            # a method to do this.
+            my $compact_cidr;
+            if( $netaddrip->version == 4) {
+                $compact_cidr = $netaddrip->cidr;
+            }
+            else {
+                $compact_cidr =  $netaddrip->short . '/' . $netaddrip->masklen;
+            }
+
+            $search_rs = $c->model('PieDB::Network')->search(
+                { 'address_range' => { '>>=',  $compact_cidr},
+                  'subdivide' => 'f' }, {} );
+            $c->stash->{'networks'} = $search_rs;
+        }
+    }
+    
+}
+
 __PACKAGE__->meta->make_immutable;
 
 =head1 AUTHOR

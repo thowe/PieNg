@@ -15,6 +15,8 @@
      >Networks</a></li>
 <li><a href="[% c.uri_for(c.controller('Networks').action_for('add'), ('root')) %]"
      >Add a root network</a></li>
+<li><a href="[% c.uri_for(c.controller('Networks').action_for('search')) %]"
+     >Search networks</a></li>
 </ul>
 </div>
 </div>

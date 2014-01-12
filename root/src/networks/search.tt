@@ -1,0 +1,45 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>Search Networks</h3>
+<form action="[% c.uri_for(c.controller('Networks').action_for('search')) %]"
+      method="post">
+<div class="form_table">
+<table class="user">
+<tr>
+<td><label for="term">Search Term:</label></td>
+<td><input type="text" id="term" name="term" maxlength="80" size="38"></td>
+</tr>
+<tr>
+<td>Search Hosts?</td>
+<td><label for="searchhosts_t">yes
+</label><input type="radio" name="searchhosts" id="subdivide_t" value="true">
+<label for="searchhosts_f">no
+</label><input type="radio" name="searchhosts" id="subdivide_f" value="false" checked></td>
+</tr>
+<tr>
+<td colspan="2" class="buttons">
+<input type="submit" id="searchbutton" name="searchbutton" value="Search">
+</td>
+</tr>
+</table>
+</div>
+</form>
+<hr>
+<table class="userlist">
+[%- IF networks.count %]
+<tr><th>Network</th><th>Owner</th><th>Description</th><th>Account</th><th>Service</th><th></th></tr>
+[%- WHILE (network = networks.next) %]
+<tr>
+<td>[% network.address_range %]</td><td>[% network.owner %]</td>
+<td>[% network.description %]</td><td>[% network.account %]</td>
+<td>[% network.service %]</td>
+<td><a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
+                           (network.id) ) %]">branch</a></td>
+</tr>
+[% END -%]
+[% ELSE -%]
+[% IF searched_term %]
+<tr><td>No networks found matching the term: [% searched_term %]</td></tr>
+[% END -%]
+[% END -%]
+</table>
+[% END -%]
