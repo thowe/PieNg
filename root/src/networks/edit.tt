@@ -38,7 +38,7 @@
 <td><label for="valid_masks">Valid Subnet Masks:</label></td>
 <td><input type="text" id="valid_masks" name="valid_masks" [% IF not network.subdivide %]disabled[% END %]
 [%- IF network.valid_masks -%]
-value="
+ value="
 [%- FOREACH vmask IN network.valid_masks %][% vmask %] [% END -%]
 ">[% END %]</td>
 </tr>
