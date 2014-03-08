@@ -168,17 +168,11 @@ fit in the defined space.
 sub possible_masks {
     my $self = shift;
 
-    my @pmasks;
+    my @pmasks = grep { NetAddr::IP::Lite->new(
+                         $self->first_ip_compact . '/' . $_ )->broadcast <=
+                         $self->last_ip } @{$self->valid_masks};
 
-    foreach my $mask (@{$self->valid_masks}) {
-        my $scratch_net = NetAddr::IP::Lite->new(
-                $self->first_ip_compact . '/' . $mask);
-        if( $scratch_net->broadcast <= $self->last_ip) {
-            push @pmasks, $mask;
-        }
-    }
-
-    return \@pmasks;
+    \@pmasks;
 }
 
 no Moose;
