@@ -8,13 +8,13 @@
 <td><label for="term">Search Term:</label></td>
 <td><input type="text" id="term" name="term" maxlength="80" size="38"></td>
 </tr>
-<tr>
+<!--tr>
 <td>Search Hosts?</td>
 <td><label for="searchhosts_t">yes
 </label><input type="radio" name="searchhosts" id="subdivide_t" value="true">
 <label for="searchhosts_f">no
 </label><input type="radio" name="searchhosts" id="subdivide_f" value="false" checked></td>
-</tr>
+</tr -->
 <tr>
 <td colspan="2" class="buttons">
 <input type="submit" id="searchbutton" name="searchbutton" value="Search">

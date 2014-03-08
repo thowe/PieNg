@@ -435,17 +435,44 @@ sub search :Local :Args(0) {
     $c->stash->{'template'} = 'networks/search.tt';
 
     # if we are actually submitting a form
-    if(lc $c->req->method eq 'post' ) {
+    if( lc $c->req->method eq 'post' ) {
         my $params = $c->req->params;
-        $c->stash->{'searched_term'} = $params->{'term'};
+        my $term = $params->{'term'};
+        $c->stash->{'searched_term'} = $term;
         my $search_rs;
+
+        # If we are just searching for an integer, let's assume it's a service id
+        # before searching for it elsewhere.  Since a plain integer will look like
+        # a valid address, we need to do this first.  It could also be part of a
+        # owner name or description.  Plain integers will almost certainly not
+        # be searched for as an IP address.
+        if( $term =~ /\A\d+\z/ and
+            ($search_rs = $c->model('PieDB::Network')->search(
+               [{ 'service' => $term},
+                { 'owner' => { '-like' => ['%' . $term . '%'] }},
+                { 'description' => { '-like' => ['%' . $term . '%'] }},
+                { 'account' => $term } ],
+                {} ))->count > 0 ) {
+            $c->stash->{'networks'} = $search_rs;
+            return;
+        }
+
+        # Next we'll search for the account.  Since I am not sure what folks
+        # may use for account numbers/IDs, we'll also get it out of the way before
+        # searching networks since they could very well appear to be valid
+        # addresses to NetAddr::IP::Lite.
+        if(($search_rs = $c->model('PieDB::Network')->search(
+                { 'account' => $term}, {} ))->count > 1 ) {
+            $c->stash->{'networks'} = $search_rs;
+            return;
+        }
 
         # Is the search term a valid network? (meaning Net::Addr::IP thinks so)
         # If so, we will search the db for a network containing the term.
         # If not, we will search the other network attributes.
         my $netaddrip;
-        $netaddrip = NetAddr::IP::Lite->new($params->{'term'});
-        if(defined $netaddrip) {
+        $netaddrip = NetAddr::IP::Lite->new($term);
+        if( defined $netaddrip ) {
 
             # NetAddr::IP will accept more variations of input than will PostgreSQL.
             # We will need to sanitize it a bit to make sure it is really valid
@@ -464,7 +491,9 @@ sub search :Local :Args(0) {
                 { 'address_range' => { '>>=',  $compact_cidr},
                   'subdivide' => 'f' }, {} );
             $c->stash->{'networks'} = $search_rs;
+            return;
         }
+
     }
     
 }

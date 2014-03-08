@@ -157,6 +157,30 @@ sub next_subnet {
     }
 }
 
+=head2
+
+Not all valid_masks will always fit in the available FreeSpace.
+possible_masks will only return the subset of valid_masks that will
+fit in the defined space.
+
+=cut
+
+sub possible_masks {
+    my $self = shift;
+
+    my @pmasks;
+
+    foreach my $mask (@{$self->valid_masks}) {
+        my $scratch_net = NetAddr::IP::Lite->new(
+                $self->first_ip_compact . '/' . $mask);
+        if( $scratch_net->broadcast <= $self->last_ip) {
+            push @pmasks, $mask;
+        }
+    }
+
+    return \@pmasks;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

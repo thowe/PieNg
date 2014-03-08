@@ -52,7 +52,7 @@
     </div></li>
 [% ELSE -%]
   <li><div class="freespace">free space - insert network
-    [%- FOREACH mask IN i.valid_masks %]
+    [%- FOREACH mask IN i.possible_masks %]
     <a href="[% c.uri_for( c.controller('Networks').action_for('add'), i.pieng_network_id,
                        { fsfirst => i.first_ip_compact,
                          fslast => i.last_ip_compact,
