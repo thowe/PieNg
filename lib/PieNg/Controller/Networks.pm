@@ -192,7 +192,12 @@ sub add :Local :Args(1) {
             }
         }
 
+        # Stick it in the database.
         $new_network->insert;
+
+        # Add our creation to the changelog.
+        $c->stash->{'new_network'} = $new_network;
+        $c->forward('/logs/newlog');
 
         if( defined $referer and $referer !~ /$path/ ) {
             $c->res->redirect($referer);
