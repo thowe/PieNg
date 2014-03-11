@@ -30,6 +30,7 @@ requires 'Catalyst::Plugin::Session';
 requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Plugin::Session::Store::FastMmap';
 requires 'DBIx::Class::PassphraseColumn';
+requires 'DateTime::Format::Pg';
 requires 'Email::Valid';
 
 test_requires 'Test::More' => '0.88';
