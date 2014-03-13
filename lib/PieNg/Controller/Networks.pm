@@ -494,6 +494,14 @@ sub search :Local :Args(0) {
             return;
         }
 
+        if( ($search_rs = $c->model('PieDB::Network')->search(
+               [{ 'owner' => { '-ilike' => ['%' . $term . '%'] }},
+                { 'description' => { '-ilike' => ['%' . $term . '%'] }}, ],
+                {} ))->count > 0 ) {
+            $c->stash->{'networks'} = $search_rs;
+            return;
+        }
+
     }
     
 }
