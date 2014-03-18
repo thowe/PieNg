@@ -196,8 +196,10 @@ sub add :Local :Args(1) {
         $new_network->insert;
 
         # Add our creation to the changelog.
-        $c->stash->{'new_network'} = $new_network;
-        $c->forward('/logs/newlog');
+        $c->stash->{'prefix'} = $new_network->cidr_compact;
+        $c->stash->{'changed_cols'} = { $new_network->get_columns };
+        $c->stash->{'log_type'} = 'created';
+        $c->forward('/logs/netlog');
 
         if( defined $referer and $referer !~ /$path/ ) {
             $c->res->redirect($referer);
@@ -295,9 +297,17 @@ sub delete :Local :Args(1) {
         $c->detach();
     }
 
+    $c->stash->{'prefix'} = $network->cidr_compact;
+    $c->stash->{'changed_cols'} = { $network->get_columns };
+
     $network->delete;
 
     if( not $network->in_storage ) {
+
+        # Add our deletion to the changelog.
+        $c->stash->{'log_type'} = 'deleted';
+        $c->forward('/logs/netlog');
+
         $c->flash->{'message'} = "Deleted " . $network->cidr_compact;
         $c->res->redirect($referer);
         $c->detach();
@@ -334,6 +344,10 @@ sub edit :Local :Args(1) {
     }
 
     $c->stash->{'network'} = $network;
+
+    # Save old masks, since DBIC apparently can't tell if an array
+    # field is dirty.
+    my $oldmasks = $network->valid_masks;
 
     # We will want to remember the referring URI so that once login
     # works we can get directed to it.
@@ -399,6 +413,21 @@ sub edit :Local :Args(1) {
         }
 
         $network->update;
+
+        # Add our updates to the changelog, but only if there are any.
+        # This first check is because DBIx::Class always thinks array
+        # fields changed even if they didn't.  If they fix that, this
+        # check should still be safe and not effect the function.
+        if( join('-', @masks) eq join('-', @{$oldmasks}) ) {
+            delete $changed_cols{'valid_masks'};
+        }
+        if( keys(%changed_cols) ) {
+            $c->stash->{'prefix'} = $network->cidr_compact;
+            $c->stash->{'changed_cols'} = \%changed_cols;
+            $c->stash->{'log_type'} = 'updated';
+            $c->forward('/logs/netlog');
+        }
+
         $c->flash->{'message'} = $network->address_range . " edited";
         if( defined $referer and $referer !~ /$path/ ) {
             $c->res->redirect($referer);

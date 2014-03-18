@@ -72,6 +72,14 @@ table.user tr.offcolor {
  background-color: #cde;
 }
 
+table.changelog td div{
+ max-width: 80%;
+}
+
+table.changelog tr.lite {
+ background-color: white;
+}
+
 table.userlist, table.user {
  margin-left: auto;
  margin-right: auto;

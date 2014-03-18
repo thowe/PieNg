@@ -1,0 +1,18 @@
+[% WRAPPER site/default_wrapper -%]
+<h3>Last [% log_limit %] Changes</h3>
+<table class="changelog">
+[% IF changes.count -%]
+<tr><th>Timestamp</th><th>Prefix</th><th>Change</th><th>User</th></tr>
+[% i = 0 -%]
+[%- WHILE (log = changes.next) -%]
+[% i = i + 1 -%]
+<tr class="[% IF i % 2 %]lite[% ELSE %]dark[% END %]">
+<td>[% log.change_time.ymd('-') %] [% log.change_time.hms(':') %]</td><td>[% log.prefix %]</td>
+<td><div>[% log.change | replace('\n', '<br>') | replace('\s', '&nbsp;') %]</div></td>
+<td>[% log.user.username %]</td>
+</tr>
+[% LAST IF i >= log_limit -%]
+[% END -%]
+[% END -%]
+</table>
+[% END -%]

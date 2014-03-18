@@ -30,9 +30,9 @@
 <tr>
 <td>Will this range be subdivided?</td>
 <td><label for="subdivide_t">yes
-</label><input type="radio" name="subdivide" id="subdivide_t" value="true" [% IF network.subdivide %]checked[% END %]>
+</label><input type="radio" name="subdivide" id="subdivide_t" value="1" [% IF network.subdivide %]checked[% END %]>
 <label for="subdivide_f">no
-</label><input type="radio" name="subdivide" id="subdivide_f" value="false" [% IF not network.subdivide %]checked[% END %]></td>
+</label><input type="radio" name="subdivide" id="subdivide_f" value="0" [% IF not network.subdivide %]checked[% END %]></td>
 </tr>
 <tr>
 <td><label for="valid_masks">Valid Subnet Masks:</label></td>

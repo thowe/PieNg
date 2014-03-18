@@ -1,4 +1,4 @@
-PieNg is Copyright (c) 2012, 2013 by Tim Howe.
+PieNg is Copyright (c) 2012, 2013, 2014 by Tim Howe.
 
 PieNg is an IP Address Manager (IPAM) designed with an ISP setting in mind.
 This is currently alpha code, but is ready to have basic management features
@@ -6,7 +6,7 @@ tested.  Basic feature-completeness is now here.
 
 TODO
 
-* Logging changes
+* Host search and Logging
 * Interface conveniences
 * CSS beautification
 

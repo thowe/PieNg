@@ -1,5 +1,9 @@
 This file documents the revision history for Perl extension PieNg.
 
+0.88a 2014-03-17 15:30:00
+	- network create, update, and delete actions are logged to the
+	  changelog as pretty JSON for easy reading.
+
 0.85a 2014-03-08 11:30:00
 	- fleshed out search.  Disabled host searching for now.
 	- Implemented requested feature to only display possible masks

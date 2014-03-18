@@ -19,30 +19,46 @@ Catalyst Controller.
 
 =head2 index
 
+For the moment, let's just show the last 100 log entries.
+
 =cut
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->response->body('Matched PieNg::Controller::Logs in Logs.');
+    $c->stash->{'template'} = 'logs/last.tt';
+    $c->stash->{'log_limit'} = PieNg->config->{'last_logs_limit'};
+    my $changelogs = $c->model('PieDB::Changelog')->search(
+                         { user => 1},
+                         { order_by => {-desc => 'change_time'} });
+    $c->stash->{'changes'} = $changelogs;
 }
 
-=head2 newlog
+=head2 netlog
 
-A log entry for a newly created network.
-I'll assume the new network is in the stash.
+Record the changes of an update.
+This expects the network prefix (cidr_compact works best in most cases)
+in $c->stash->{'prefix'}, a hashref of the columns that changed in
+$c->stash->{'changed_cols'}, and a log type
+(one of 'created', 'updated', or 'deleted' is appropriate).
 
 =cut
 
-sub newlog :Private {
+sub netlog :Private {
     my ( $self, $c ) = @_;
 
-    my $new_network = $c->stash->{'new_network'};
-    my $user = $c->user;
+    use JSON;
+    my $json = JSON->new->pretty([1]);
+
+    my $prefix = $c->stash->{'prefix'};
+    my $cols = $c->stash->{'changed_cols'};
+    my $log_type = $c->stash->{'log_type'};
+
     my $new_changelog = $c->model('PieDB::Changelog')->new({
-                              'user'   => $user->id,
-                              'prefix' => $new_network->cidr_compact,
-                              'change' => 'Created'});
+                              'user'   => $c->user->id,
+                              'prefix' => $prefix,
+                              'change' => $json->pretty->encode(
+                                              { $log_type => $cols } ) });
     $new_changelog->insert;
 }
 

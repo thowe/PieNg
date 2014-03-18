@@ -8,7 +8,7 @@ function range_input_status() {
 };
 
 function valid_masks_status() {
-  if( $('input[name="subdivide"]:checked').val() == 'true' ) {
+  if( $('input[name="subdivide"]:checked').val() == '1' ) {
     $('#valid_masks').attr( 'disabled', false );
   }
   else {

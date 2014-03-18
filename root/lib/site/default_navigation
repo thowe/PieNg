@@ -19,4 +19,10 @@
      >Search networks</a></li>
 </ul>
 </div>
+<div class="menu">
+<ul>
+<li><a href="[% c.uri_for(c.controller('Logs').action_for('index')) %]"
+     >Changelog</a></li>
+</ul>
+</div>
 </div>

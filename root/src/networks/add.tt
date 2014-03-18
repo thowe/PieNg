@@ -50,9 +50,9 @@ Creating a child of [% parent_network.address_range %]
 <tr>
 <td>Will this range be subdivided?</td>
 <td><label for="subdivide_t">yes
-</label><input type="radio" name="subdivide" id="subdivide_t" value="true">
+</label><input type="radio" name="subdivide" id="subdivide_t" value="1">
 <label for="subdivide_f">no
-</label><input type="radio" name="subdivide" id="subdivide_f" value="false" checked></td>
+</label><input type="radio" name="subdivide" id="subdivide_f" value="0" checked></td>
 </tr>
 <tr>
 <td><label for="valid_masks">Valid Subnet Masks:</label></td>
