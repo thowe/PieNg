@@ -29,7 +29,7 @@ sub index :Path :Args(0) {
     $c->stash->{'template'} = 'logs/last.tt';
     $c->stash->{'log_limit'} = PieNg->config->{'last_logs_limit'};
     my $changelogs = $c->model('PieDB::Changelog')->search(
-                         { user => 1},
+                         {},
                          { order_by => {-desc => 'change_time'} });
     $c->stash->{'changes'} = $changelogs;
 }
