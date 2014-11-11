@@ -168,9 +168,14 @@ fit in the defined space.
 sub possible_masks {
     my $self = shift;
 
-    my @pmasks = grep { NetAddr::IP::Lite->new(
-                         $self->first_ip_compact . '/' . $_ )->broadcast <=
-                         $self->last_ip } @{$self->valid_masks};
+    my @pmasks = grep {
+        NetAddr::IP::Lite->new( $self->first_ip_compact . '/' . $_ )->broadcast
+            <= $self->last_ip
+        and
+        NetAddr::IP::Lite->new( $self->first_ip_compact . '/' . $_ )->addr
+            eq
+        NetAddr::IP::Lite->new( $self->first_ip_compact . '/' . $_ )->network->addr
+                      } @{$self->valid_masks};
 
     \@pmasks;
 }
