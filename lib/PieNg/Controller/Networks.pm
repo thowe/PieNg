@@ -496,7 +496,7 @@ sub search :Local :Args(0) {
         # searching networks since they could very well appear to be valid
         # addresses to NetAddr::IP::Lite.
         if(($search_rs = $c->model('PieDB::Network')->search(
-                { 'account' => $term}, {} ))->count > 1 ) {
+                { 'account' => $term}, {} ))->count > 0 ) {
             $c->stash->{'networks'} = $search_rs;
             return;
         }
