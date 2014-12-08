@@ -238,8 +238,9 @@ sub branch :Local :Args(1) {
         $c->stash->{'branch'} = $network->branch_with_space;
     }
     elsif( $network->parent and $network->parent->subdivide ) {
-        $c->stash->{'network'} = $network->parent;
-        $c->stash->{'branch'} = $network->parent->branch_with_space;
+        $c->response->redirect($c->uri_for(
+                    $c->controller('Networks')->action_for('branch'), $network->parent->id));
+        $c->detach();
     }
     else {
         $c->flash->{'message'} = "No valid branch for that network.";
