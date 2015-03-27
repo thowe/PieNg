@@ -81,6 +81,14 @@ function expand_collapse_network_details() {
   }
 }
 
+function hide_assigned_networks() {
+  $('div.nosubdivide').closest('li').css('display', 'none');
+}
+
+function show_assigned_networks() {
+  $('div.nosubdivide').closest('li').css('display', 'list-item');
+}
+
 $(function() {
     $('#select_address_range').change(range_input_status);
 });
@@ -98,4 +106,12 @@ $(function() {
             var answer = confirm("Are you sure you want to delete this network?");
             if( ! answer ) { event.preventDefault(); }
         });
+});
+
+$(function() {
+    $("a[name='hide-assigns']").on('click', hide_assigned_networks);
+});
+
+$(function() {
+    $("a[name='show-assigns']").on('click', show_assigned_networks);
 });

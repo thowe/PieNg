@@ -23,6 +23,8 @@
   </div>
 </div>
 <h1 id="branch_heading">Branch of [% network.address_range %]</h1>
+<a href="javascript:;" name="hide-assigns">Hide Assignments</a> |
+ <a href="javascript:;" name="show-assigns">Show Assignments</a>
 <p>[% network.description %][% IF network.account %] | account: [% network.account %][% END -%]
    [% IF network.service %] | service: [% network.service %][% END %]</span><br>
    [% IF network.parent.id %]<a href="[% c.uri_for( c.controller('Networks').action_for('branch'),
